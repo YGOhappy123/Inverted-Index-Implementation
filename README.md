@@ -1,6 +1,6 @@
 # Inverted Index Implementation
 
-This project implements a basic inverted index for text files, allowing efficient search for terms and ranked retrieval based on word frequencies and weights.
+This project implements a basic inverted index data structure for text files, allowing efficient search for terms and ranked retrieval based on word frequencies and weights.
 
 ## Features
 
