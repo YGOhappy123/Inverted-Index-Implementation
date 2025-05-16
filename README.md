@@ -28,7 +28,7 @@ Clone this repository and ensure Python 3.6+ is installed.
 ## Usage
 
 ```python
-from inverted_index import InvertedIndex
+from src.inverted_index import InvertedIndex
 
 # Create inverted index for given text files
 index = InvertedIndex()

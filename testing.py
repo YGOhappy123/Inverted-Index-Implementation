@@ -1,1 +1,1 @@
-from inverted_index import InvertedIndex
+from src.inverted_index import InvertedIndex
