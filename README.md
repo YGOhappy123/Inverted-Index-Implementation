@@ -35,7 +35,7 @@ index = InvertedIndex()
 index.create_index('path/to/documents', 'stopwords.txt')
 
 # Single word search
-results = index.find('computer', 5)
+results = index.find('computer', 1, 5)
 print(results)
 
 # Multi-word weighted search from file

@@ -9,7 +9,7 @@ class InvertedIndex:
     def create_index(self, dir, stop_list):
         pass
 
-    def find(self, word, n):
+    def find(self, word, weight, n):
         pass
 
     def find_from_file(self, word_file, n):
