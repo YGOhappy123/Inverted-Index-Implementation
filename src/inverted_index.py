@@ -1,3 +1,5 @@
+import os
+import re
 from collections import defaultdict
 
 
@@ -10,13 +12,39 @@ class InvertedIndex:
         '''
         Split a block of text into individual words (tokens).
         '''
-        pass
+        return re.findall(r'\b\w+\b', text.lower())
 
     def create_index(self, dir, stop_list):
         """
         Return a dictionary of terms and their counts in each files.
         """
-        pass
+        stop_words = set()
+        with open(os.path.join(dir, stop_list), 'r') as f:
+            for line in f:
+                stop_words.add(line.strip().lower())
+
+        # Read all other files in directory and track the count of appropriate words
+        doc_id = 0
+        for filename in os.listdir(dir):
+            full_path = os.path.join(dir, filename)
+            if not os.path.isfile(full_path) or filename == stop_list:
+                continue
+
+            self.doc_table[doc_id] = filename
+
+            with open(full_path, 'r', encoding='utf-8', errors='ignore') as f:
+                text = f.read()
+                tokens = self._tokenize(text)
+
+                for token in tokens:
+                    if token.lower() in stop_words:
+                        continue
+                    if token.lower().startswith('c'):
+                        self.term_index[token.lower()][doc_id] += 1
+
+            doc_id += 1
+
+        return self.term_index
 
     def find(self, word, weight, n):
         '''
