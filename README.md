@@ -1,13 +1,17 @@
 # Inverted Index Implementation
+
 ## Student Information
+
 Hà Gia Huy N21DCCN038
 
 Lê Trung Nguyên N21DCCN057
 
-Trần Bình Phương Nhã N21DCCN059     
+Trần Bình Phương Nhã N21DCCN059
 
 Trần Đình Toàn N21DCCN086
+
 ## Topic Information
+
 As a project, write a program that implements inverted indexes. Your program must contain the following routines:
 (a) CreateIndex(Dir, StopList) takes a directory name and a file called StopList (in that directory) as input. It returns an inverted index as output. The DocTable includes all files in the directory Dir, except for the StopList file. The TermTable includes only all words occurring in the directory that start with the letter C (lower- or uppercase).
 
@@ -20,39 +24,46 @@ As a project, write a program that implements inverted indexes. Your program mus
 This project implements the Inverted Index data structure in Python to enable efficient document search for keywords—specifically, words starting with the letter 'c'—and supports multi-keyword queries with weights.
 
 ### 1. Data Structures
-- `self.term_index`: A nested dictionary. The outer key is a keyword (token, only those starting with 'c'), the inner key is a document ID, and the value is the number of times the word appears in that document.
-- `self.doc_table`: A dictionary mapping doc_id (an auto-increment integer) to the corresponding document filename.
+
+-   `self.term_index`: A nested dictionary. The outer key is a keyword (token, only those starting with 'c'), the inner key is a document ID, and the value is the number of times the word appears in that document.
+-   `self.doc_table`: A dictionary mapping doc_id (an auto-increment integer) to the corresponding document filename.
 
 ### 2. Preprocessing & Index Construction
-- **Tokenization:** Uses regex to convert all text to lowercase and split it into tokens (words).
-- **Stopword Removal:** Reads a stopwords file (from the `stop_list` parameter) and builds a set of words to ignore.
-- **Indexing Only Words Starting with 'c':** When processing tokens from documents, only those starting with the letter 'c' are stored in the index.
-- **Frequency Counting:** For each valid word, its occurrence count is updated per document.
+
+-   **Tokenization:** Uses regex to convert all text to lowercase and split it into tokens (words).
+-   **Stopword Removal:** Reads a stopwords file (from the `stop_list` parameter) and builds a set of words to ignore.
+-   **Indexing Only Words Starting with 'c':** When processing tokens from documents, only those starting with the letter 'c' are stored in the index.
+-   **Frequency Counting:** For each valid word, its occurrence count is updated per document.
 
 ### 3. Single Keyword Search (`find`)
-- The `find(word, weight, n)` method takes a keyword, a weight, and the number of top documents to return.
-- It computes a score for each document containing the word: score = (frequency of word) × (weight).
-- Returns a list of up to n files with the highest scores, along with their filenames and scores.
+
+-   The `find(word, weight, n)` method takes a keyword, a weight, and the number of top documents to return.
+-   It computes a score for each document containing the word: score = (frequency of word) × (weight).
+-   Returns a list of up to n files with the highest scores, along with their filenames and scores.
 
 ### 4. Multi-keyword Weighted Search from File (`find_from_file`)
-- The function takes a query file, each line containing a word and its weight.
-- It reads the file, checks if each word exists in the index, and parses the weights.
-- For each document, it computes a total score: the sum of (word frequency × word weight) for all query words.
-- Returns a list of up to n files with the highest scores, along with their filenames and scores.
+
+-   The function takes a query file, each line containing a word and its weight.
+-   It reads the file, checks if each word exists in the index, and parses the weights.
+-   For each document, it computes a total score: the sum of (word frequency × word weight) for all query words.
+-   Returns a list of up to n files with the highest scores, along with their filenames and scores.
 
 ### 5. Error Handling
-- If the query file does not exist, the function raises an error.
-- If a line in the query file is invalid (wrong format or non-integer weight), that line is skipped.
+
+-   If the query file does not exist, the function raises an error.
+-   If a line in the query file is invalid (wrong format or non-integer weight), that line is skipped.
 
 ### 6. Workflow Summary
-- The user creates an `InvertedIndex` object and calls `create_index` to build the index from document files.
-- For searching, the user calls either `find` (for a single keyword) or `find_from_file` (for a weighted multi-keyword query).
-- The result is a ranked list of document filenames according to relevance to the search keywords.
+
+-   The user creates an `InvertedIndex` object and calls `create_index` to build the index from document files.
+-   For searching, the user calls either `find` (for a single keyword) or `find_from_file` (for a weighted multi-keyword query).
+-   The result is a ranked list of document filenames according to relevance to the search keywords.
 
 ### 7. Key Features
-- Efficiently indexes only words that start with a specific character ('c').
-- Flexible search: supports both single-keyword and weighted multi-keyword queries.
-- Ignores stopwords to improve search precision and reduce noise.
+
+-   Efficiently indexes only words that start with a specific character ('c').
+-   Flexible search: supports both single-keyword and weighted multi-keyword queries.
+-   Ignores stopwords to improve search precision and reduce noise.
 
 ## Features
 
@@ -70,10 +81,11 @@ This project implements the Inverted Index data structure in Python to enable ef
     - Tracks frequency of indexed words in each document.
 
 2. **Searching**:
-    - `find(word, n)`: Finds the top `n` documents with the highest count of the specified word.
+    - `find(word, weight, n)`: Finds the top `n` documents with the highest count \* weight of the specified word.
     - `find_from_file(word_file, n)`: Computes scores for documents based on the frequency of words and their respective weights from the query file.
 
 ## Installation Instructions
+
 ### Installation
 
 1. Clone this repository
@@ -89,10 +101,11 @@ This project implements the Inverted Index data structure in Python to enable ef
 -   `InvertedIndex`: Main class handling indexing and searching.
 -   `_tokenize(text)`: Tokenizes input text.
 -   `create_index(dir, stop_list)`: Builds the index.
--   `find(word, n)`: Finds top documents for a given word.
+-   `find(word, weight, n)`: Finds top documents for a given word.
 -   `find_from_file(word_file, n)`: Finds top documents using weighted query from file.
 
-## Instructions For Running The rogram
+## Instructions For Running The Program
+
 ### Usage
 
 ```python
@@ -119,6 +132,11 @@ print(results)
 
 ```
 
+**Note:**
+
+-   All file path can be replaced with absolute path from your personal computer, integrating the `os` library makes this process more dynamic and effective.
+-   You can use the normal `print` function from python, but the `pprint` library make printing nested and complex object easier.
+
 ### Query File Format
 
 The `query.txt` file should contain one word and its weight per line, like:
@@ -137,31 +155,33 @@ python testing.py
 ```
 
 ## Inputs
+
 ### Input Files
 
 The included doc files available after copying the project are as below:
 
-- ai_description.txt
+-   ai_description.txt
 
-- car_descriptions.txt
+-   car_descriptions.txt
 
-- cat_descriptions.txt
+-   cat_descriptions.txt
 
-- house_descriptions.txt
+-   house_descriptions.txt
 
-- laptop_descriptions.txt
+-   laptop_descriptions.txt
 
-- pets_descriptions.txt
+-   pets_descriptions.txt
 
-- pizza_descriptions.txt
+-   pizza_descriptions.txt
 
-- vietnam_descriptions.txt
+-   vietnam_descriptions.txt
 
-- stop_list.txt
+-   stop_list.txt
 
-- query.txt
+-   query.txt
 
 ## Outputs
+
 After running the program, the output will be as follows:
 
 ```bash
